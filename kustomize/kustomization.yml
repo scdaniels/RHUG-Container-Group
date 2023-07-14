@@ -1,0 +1,6 @@
+namespace: aap-cg-ns
+
+resources:
+- service-account.yml
+- role.yml
+- role-binding.yml

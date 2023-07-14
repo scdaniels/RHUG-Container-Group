@@ -1,0 +1,12 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: aap-cg-sa-role-binding
+subjects:
+- kind: ServiceAccount
+  name: aap-cg-sa
+  namespace: aap-cg-ns
+roleRef:
+  kind: Role
+  name: aap-cg-sa-role
+  apiGroup: rbac.authorization.k8s.io

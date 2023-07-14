@@ -1,0 +1,48 @@
+#
+# For the namespace, give it a name that represents the primary project (AAP deployment) and its location
+# Examples:
+#  aap
+#  aap-cg-azure-useast
+#  aap-cg-gcp-uscentral
+#  aap-cg-aws-useast
+#  
+#  NOTE:  When creating a namespace that differs from the namespace that holds the AAP installation (aap by default
+#         from the AAP Operator deployment) you must update the Pod Spec in the Container Group definition.
+#
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aap-cg-sa
+  namespace: aap-cg-azure-useast
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: aap-cg-sa-role
+  namespace: aap-cg-azure-useast
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["pods/log"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["pods/attach"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: aap-cg-sa-role-binding
+  namespace: aap-cg-azure-useast
+subjects:
+- kind: ServiceAccount
+  name: aap-cg-sa
+  namespace: aap-cg-azure-useast
+roleRef:
+  kind: Role
+  name: aap-cg-sa-role
+  apiGroup: rbac.authorization.k8s.io
